@@ -6,7 +6,7 @@ data_base_dir: null
 sfm_base_dir: null
 
 model:
-  pretrained_ckpt: weight/OnePosePlus_model.ckpt
+  pretrained_ckpt: /OnePose_Plus_Plus_Spot/weight/OnePosePlus_model.ckpt
 
   OnePosePlus:
     loftr_backbone:
@@ -18,7 +18,7 @@ model:
         block_dims: [128, 196, 256]
         output_layers: [3, 1]
 
-      pretrained: "weight/LoFTR_wsize9.ckpt"
+      pretrained: "/OnePose_Plus_Plus_Spot/weight/LoFTR_wsize9.ckpt"
       pretrained_fix: False
 
     interpol_type: "bilinear" # ['nearest', 'bilinear']

@@ -36,7 +36,7 @@ def build_2D_match_model(args):
 
 class LocalFeatureObjectDetector():
     def __init__(self, sfm_ws_dir, n_ref_view=15, output_results=False, detect_save_dir=None, K_crop_save_dir=None):
-        matcher = build_2D_match_model(cfgs['model']) 
+        matcher = build_2D_match_model(cfgs['model'])
         self.matcher = matcher.cuda()
         self.db_imgs, self.db_corners_homo = self.load_ref_view_images(sfm_ws_dir, n_ref_view)
         self.output_results = output_results
@@ -155,13 +155,13 @@ class LocalFeatureObjectDetector():
         if K is not None:
             K_crop, K_crop_homo = get_K_crop_resize(bbox_new, K_crop, resize_shape)
         image_crop, trans2 = get_image_crop_resize(image_crop, bbox_new, resize_shape)
-        
+
         return image_crop, K_crop if K is not None else None
-    
+
     def save_detection(self, crop_img, query_img_path):
         if self.output_results and self.detect_save_dir is not None:
             cv2.imwrite(osp.join(self.detect_save_dir, osp.basename(query_img_path)), crop_img)
-    
+
     def save_K_crop(self, K_crop, query_img_path):
         if self.output_results and self.K_crop_save_dir is not None:
             np.savetxt(osp.join(self.K_crop_save_dir, osp.splitext(osp.basename(query_img_path))[0] + '.txt'), K_crop) # K_crop: 3*3
@@ -182,7 +182,7 @@ class LocalFeatureObjectDetector():
             query_inp = query_img[None].cuda()
         else:
             query_inp = query_img.cuda()
-        
+
         # Detect bbox and crop image:
         bbox = self.detect_by_matching(
             query=query_inp,
@@ -196,7 +196,7 @@ class LocalFeatureObjectDetector():
         image_crop_tensor = torch.from_numpy(image_crop)[None][None].cuda()
 
         return bbox, image_crop_tensor, K_crop
-    
+
     def previous_pose_detect(self, query_img_path, K, pre_pose, bbox3D_corner, crop_size=512):
         """
         Detect object by projecting 3D bbox with estimated last frame pose.

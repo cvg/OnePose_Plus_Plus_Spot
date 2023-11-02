@@ -27,7 +27,7 @@ def get_default_paths(cfg, data_root, data_dir, sfm_model_dir):
     img_lists = []
     color_dir = osp.join(data_dir, "color_full")
     img_lists += glob.glob(color_dir + "/*.png", recursive=True)
-    
+
     img_lists = natsort.natsorted(img_lists)
 
     # Visualize detector:
@@ -85,7 +85,7 @@ def inference_core(cfg, data_root, seq_dir, sfm_model_dir):
     # You can set `output_results=True`, the detection results will thus be saved in the `detector_vis` directory in folder of the test sequence.
     local_feature_obj_detector = LocalFeatureObjectDetector(
         sfm_ws_dir=paths["sfm_ws_dir"],
-        output_results=True, 
+        output_results=True,
         detect_save_dir=paths["vis_detector_dir"],
     )
     match_2D_3D_model = build_model(cfg['model']["OnePosePlus"], cfg['model']['pretrained_ckpt'])
@@ -121,7 +121,7 @@ def inference_core(cfg, data_root, seq_dir, sfm_model_dir):
                 ) = local_feature_obj_detector.previous_pose_detect(
                     query_image_path, K, previous_frame_pose, bbox3d
                 )
-        
+
         data.update({"query_image": inp_crop.cuda()})
 
         # Perform keypoint-free 2D-3D matching and then estimate object pose of query image by PnP:
@@ -142,7 +142,7 @@ def inference_core(cfg, data_root, seq_dir, sfm_model_dir):
             draw_box=len(inliers) > 20,
             save_path=osp.join(paths["vis_box_dir"], f"{id}.jpg"),
         )
-    
+
     # Output video to visualize estimated poses:
     logger.info(f"Generate demo video begin...")
     vis_utils.make_video(paths["vis_box_dir"], paths["demo_video_path"])

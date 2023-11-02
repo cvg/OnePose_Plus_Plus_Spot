@@ -22,4 +22,5 @@ rich
 transforms3d
 natsort
 plyfile
+wis3d
 pycolmap==0.3.0
